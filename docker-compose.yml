@@ -1,0 +1,38 @@
+version: '3.3'
+services:
+   postgres:
+      image: postgres:13
+      container_name: serverPostgres
+      restart: always
+      ports:
+         - "5432:5432"
+      environment:
+         POSTGRES_DB: adminer
+         POSTGRES_USER: adminer
+         POSTGRES_PASSWORD: adminer2023
+         PGDATA: /var/lib/postgresql/data
+      volumes:
+         - pgdata:/var/lib/postgresql/data:rw
+      networks:
+         - tpostgres
+
+   pgadmin:
+      image: elestio/pgadmin:latest
+      container_name: serverPgadmin
+      restart: always
+      environment:
+         PGADMIN_DEFAULT_EMAIL: soportesistemas.comfaca@gmail.com
+         PGADMIN_DEFAULT_PASSWORD: adminer2023
+         PGADMIN_LISTEN_PORT: 8080
+      ports:
+         - "4000:8080"
+      networks:
+         - tpgadmin
+         - tpostgres
+volumes:
+   pgdata:
+networks:
+   tpostgres:
+      driver: bridge
+   tpgadmin:
+      driver: bridge
