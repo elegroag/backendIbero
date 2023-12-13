@@ -1,0 +1,9 @@
+.vscode/
+build/
+doc/
+node_modules/
+src/lib/*.env
+src/lib/.env.development
+src/lib/.env.production
+package-lock.json
+src/migrations/
