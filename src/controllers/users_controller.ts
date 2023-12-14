@@ -1,28 +1,48 @@
 import { Request, Response } from 'express';
-import { AppDataSource } from '../lib/data-source';
-import { User } from '../repositories/entities/user.entity';
+import { UserServices } from '../services/user_services';
 
-export class UsersController {
-	public constructor() {}
+const userServices: UserServices = new UserServices();
 
-	public async getAll(_req: Request, res: Response): Promise<Response> {
+const UsersController = {
+	async getAll(_req: Request, res: Response): Promise<Response> {
+		const users = await userServices.findAll();
+		return res.status(201).json({
+			success: true,
+			msj: 'Proceso de consulta realizado con éxito',
+			data: users,
+		});
+	},
+	async getUserById(_req: Request, res: Response): Promise<Response> {
 		try {
-			const users = await AppDataSource.getRepository(User).find();
+			const user = await userServices.findByIdentification(_req.body.identification);
 			return res.json({
 				success: true,
-				msj: 'User router',
-				data: users,
+				msj: 'Proceso de consulta realizado con éxito',
+				entity: user,
 			});
 		} catch (error) {
-			return res.status(501);
+			return res.status(301).json({
+				success: false,
+				msj: error,
+			});
 		}
-	}
+	},
+	async postCreate(_req: Request, res: Response): Promise<Response> {
+		try {
+			console.log('Class Login', 'postSignup');
+			const user = await userServices.create(_req.body);
+			return res.status(201).json({
+				success: true,
+				msj: 'Registro de usuario realizado con éxito',
+				entity: user,
+			});
+		} catch (error) {
+			return res.status(301).json({
+				success: false,
+				msj: error,
+			});
+		}
+	},
+};
 
-	public postCreate(_req: Request, res: Response): Response {
-		console.log('APP access', 'create');
-		return res.json({
-			success: true,
-			msj: 'Registro user',
-		});
-	}
-}
+export default UsersController;

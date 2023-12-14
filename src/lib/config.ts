@@ -16,4 +16,10 @@ export default {
 	api: {
 		SECRET_KEY: process.env.SECRET_KEY ?? '',
 	},
+	jwt: {
+		expiresIn: 7200,
+		type: 'Bearer',
+		issuer: 'elegroag@ibero.edu.co',
+		audience: 'ibero.net',
+	},
 };

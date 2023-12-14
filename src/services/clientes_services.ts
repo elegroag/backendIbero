@@ -1,5 +1,22 @@
 import clientesJson from '../repositories/models/clientes_json';
 import { ClientesEntry, NoEmailClientesEntry, EmailPhoneClientesEntry, NewClienteEntry } from '../types';
+import * as utils from '../lib/utils';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const toNewClienteEntry = (object: object | any): NewClienteEntry => {
+	const newCliente: NewClienteEntry = {
+		cedclie: utils.parseNumber(object.cedclie),
+		email: utils.parseEmail(object.email),
+		first_name: utils.isString(object.first_name) ? object.first_name : '',
+		last_name: utils.isString(object.last_name) ? object.last_name : '',
+		phone: utils.isString(object.phone) ? object.phone : '',
+		create_at: utils.isDate(object.create_at) ? object.create_at : '',
+		update_at: utils.isDate(object.update_at) ? object.update_at : '',
+		tipdoc: utils.parseCoddoc(object.tipdoc),
+		codstat: utils.parseCodstat(object.codstat),
+	};
+	return newCliente;
+};
 
 const clienteEntities: Array<ClientesEntry> = clientesJson;
 

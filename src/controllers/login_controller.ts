@@ -1,29 +1,52 @@
 import { Request, Response } from 'express';
+import { UserServices } from '../services/user_services';
+import { AuthServices } from '../services/auth_service';
 
-export class LoginController {
-	public constructor() {}
-
-	public getToken(_req: Request, res: Response): Response {
-		console.log('APP access', 'Solicitud de token');
-		return res.json({
+const LoginController = {
+	async getTest(req: Request, res: Response): Promise<Response> {
+		return res.status(201).json({
 			success: true,
-			msj: 'Login token',
+			body: req.body,
 		});
-	}
+	},
 
-	public postAutenticate(_req: Request, res: Response): Response {
+	async getToken(req: Request, res: Response): Promise<Response> {
+		console.log('APP access', 'Solicitud de token');
+		try {
+			const authServices = new AuthServices();
+			const auth = await authServices.processAuth(req.body, new UserServices());
+			return res.status(201).json({
+				success: true,
+				token: auth?.session_token,
+			});
+		} catch (error) {
+			return res.status(404).json({
+				success: false,
+				msj: error,
+			});
+		}
+	},
+
+	async postAutenticate(_req: Request, res: Response): Promise<Response> {
 		console.log('APP access', 'Autenticate');
 		return res.json({
 			success: true,
 			msj: 'Login autenticate',
 		});
-	}
+	},
 
-	public postSignup(_req: Request, res: Response): Response {
-		console.log('APP access', 'Signup');
-		return res.json({
+	async postSignup(req: Request, res: Response): Promise<Response> {
+		console.log('Class Login', 'postSignup');
+
+		const userServices = new UserServices();
+		const user = await userServices.create(req.body);
+
+		return res.status(201).json({
 			success: true,
-			msj: 'Login registro user',
+			msj: 'Registro de usuario realizado con éxito',
+			entity: user,
 		});
-	}
-}
+	},
+};
+
+export default LoginController;

@@ -1,22 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CodStatus, Coddoc } from '../repositories/enums';
-import { NewClienteEntry } from '../types';
 
-const parseEmail = (emailFromRequest: any): string => {
+export const parseEmail = (emailFromRequest: any): string => {
 	if (!isString(emailFromRequest)) {
 		throw new Error('Incorrecto el valor del email');
 	}
 	return emailFromRequest;
 };
 
-const parseDate = (dateFromRequest: any): string => {
+export const parseDate = (dateFromRequest: any): Date => {
 	if (!(isString(dateFromRequest) && isDate(dateFromRequest))) {
-		throw new Error('Incorrecto el valor del la fecha');
+		throw new Error('Incorrecto el valor de la fecha');
 	}
-	return dateFromRequest;
+	return new Date(dateFromRequest);
 };
 
-const parseCoddoc = (coddocFromRequest: any): Coddoc => {
+export const parseCoddoc = (coddocFromRequest: any): Coddoc => {
 	if (!isString(coddocFromRequest)) {
 		throw new Error('Incorrecto el valor del tipo documento');
 	}
@@ -26,7 +25,7 @@ const parseCoddoc = (coddocFromRequest: any): Coddoc => {
 	return coddocFromRequest;
 };
 
-const parseCodstat = (codstatFromRequest: any): CodStatus => {
+export const parseCodstat = (codstatFromRequest: any): CodStatus => {
 	if (!isString(codstatFromRequest)) {
 		throw new Error('Incorrecto el valor del estado');
 	}
@@ -36,48 +35,35 @@ const parseCodstat = (codstatFromRequest: any): CodStatus => {
 	return codstatFromRequest;
 };
 
-const parseCedclient = (cedclieFromRequest: any): number => {
+export const parseNumber = (cedclieFromRequest: any): number => {
 	if (!isNumber(cedclieFromRequest)) {
 		throw new Error('Incorrecto el valor no es numérico');
 	}
 	return Number(cedclieFromRequest);
 };
 
-const isCoddoc = (coddoc: any): boolean => {
+export const isCoddoc = (coddoc: any): boolean => {
 	// return ['CC', 'TI', 'RG', 'DC', 'PT', 'CE', 'PTP'].includes(coddoc);
 	//modo refactor del metodo previo
 	return Object.values(Coddoc).includes(coddoc);
 };
 
-const isCodstat = (codstat: any): boolean => {
+export const isCodstat = (codstat: any): boolean => {
 	return Object.values(CodStatus).includes(codstat);
 };
 
-const isNumber = (num: any): boolean => {
+export const isNumber = (num: any): boolean => {
 	return Boolean(Number(num));
 };
 
-const isString = (strs: any): boolean => {
+export const isString = (strs: any): boolean => {
 	return typeof strs === 'string' || strs instanceof String ? true : false;
 };
 
-const isDate = (date: any): boolean => {
+export const isBoolean = (str: any): boolean => {
+	return typeof str === 'boolean' || str instanceof Boolean ? true : false;
+};
+
+export const isDate = (date: any): boolean => {
 	return Boolean(Date.parse(date));
 };
-
-const toNewClienteEntry = (object: object | any): NewClienteEntry => {
-	const newCliente: NewClienteEntry = {
-		cedclie: parseCedclient(object.cedclie),
-		email: parseEmail(object.email),
-		first_name: isString(object.first_name) ? object.first_name : '',
-		last_name: isString(object.last_name) ? object.last_name : '',
-		phone: isString(object.phone) ? object.phone : '',
-		create_at: parseDate(object.create_at),
-		update_at: parseDate(object.update_at),
-		tipdoc: parseCoddoc(object.tipdoc),
-		codstat: parseCodstat(object.codstat),
-	};
-	return newCliente;
-};
-
-export default toNewClienteEntry;
