@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
-import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
-
-export const SECRET_KEY: Secret = 'io898hhnioksn%682++*...9$';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import env from '../lib/config';
 
 export interface CustomRequest extends Request {
 	token: string | JwtPayload;
@@ -13,7 +12,7 @@ export const validaToken = (req: Request, res: Response, next: NextFunction) => 
 		if (!token) {
 			throw new Error('Tu petición no tiene token autorización');
 		} else {
-			const decoded = jwt.verify(token, SECRET_KEY);
+			const decoded = jwt.verify(token, env.api.SECRET_KEY);
 			(req as CustomRequest).token = decoded;
 		}
 		next();
@@ -33,7 +32,7 @@ export const decodeUserToken = (req: Request, res: Response, next: NextFunction)
 		if (!token) {
 			throw new Error('Tu petición no tiene token autorización');
 		} else {
-			const decoded = jwt.verify(token, SECRET_KEY);
+			const decoded = jwt.verify(token, env.api.SECRET_KEY);
 			(req as CustomRequest).token = decoded;
 			if (typeof decoded == 'undefined' || decoded === '') {
 				const error = {
@@ -53,18 +52,4 @@ export const decodeUserToken = (req: Request, res: Response, next: NextFunction)
 		};
 		res.status(403).send(err);
 	}
-};
-
-export const createToken = (userId: number, userName: string, userEmail: string): string => {
-	const payload: JwtPayload = {
-		id: userId,
-		name: userName,
-		email: userEmail,
-	};
-
-	const token = jwt.sign(payload, SECRET_KEY, {
-		expiresIn: 7200,
-	});
-
-	return token;
 };
