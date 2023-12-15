@@ -16,7 +16,7 @@ services:
       container_name: serverPostgres
       restart: always
       ports:
-         - "5432:5432"
+         - '5432:5432'
       environment:
          POSTGRES_DB: adminer
          POSTGRES_USER: adminer
@@ -36,7 +36,7 @@ services:
          PGADMIN_DEFAULT_PASSWORD: adminer2023
          PGADMIN_LISTEN_PORT: 8080
       ports:
-         - "4000:8080"
+         - '4000:8080'
       networks:
          - tpgadmin
          - tpostgres
@@ -72,6 +72,7 @@ networks:
 ```
 
 ### Out bash inspect
+
 ```bash
    "SecondaryIPAddresses": null,
    "IPAddress": "",
@@ -98,8 +99,8 @@ psql -h localhost -d adminer -U adminer
 
 ## Migration
 
-Realizar la migración de la base de datos    
-Generar el archivo de migración    
+Realizar la migración de la base de datos  
+Generar el archivo de migración
 
 ```bash
    docker-compose up -d --build
@@ -113,4 +114,16 @@ procesar el archivo de migración
 npm run migrations:run
 npm run migrations:log
 npm run migrations:show
+```
+
+### Test Enpoint POSTMAN
+
+Se requiere de importar en POSTMAN el archivo de "import.postman.json", para consumo de la Api.
+
+### Usando Curl
+
+```bash
+   curl -X POST -d '{"email":"elegroag@ibero.edu.co","password":"202adminer"}' \
+   -H 'Content-Type: application/json' \
+   http://localhost:3011/api/login/token
 ```

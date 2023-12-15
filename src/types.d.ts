@@ -40,6 +40,6 @@ export type NewClienteEntry = Omit<ClientesEntry, 'id'>;
 
 export type NewUserEntry = Omit<UserEntry, 'id'>;
 
-export type AuthUserEntry = Pick<UserEntry, 'identification' | 'password'>;
+export type AuthUserEntry = Pick<UserEntry, 'email' | 'password'>;
 
 export type AuthUser = Omit<UserEntry, 'password'>;

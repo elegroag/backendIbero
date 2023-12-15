@@ -5,7 +5,7 @@ export class User {
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Column({ type: 'int', nullable: false })
+	@Column({ type: 'int', nullable: false, unique: true })
 	identification!: number;
 
 	@Column({ name: 'first_name', type: 'varchar', length: 48 })
@@ -14,7 +14,7 @@ export class User {
 	@Column({ name: 'last_name', type: 'varchar', length: 48 })
 	lastName!: string;
 
-	@Column({ type: 'varchar', length: 120 })
+	@Column({ type: 'varchar', length: 120, unique: true })
 	email!: string;
 
 	@Column({ type: 'varchar', length: 20 })
@@ -29,7 +29,7 @@ export class User {
 	@Column({ type: 'varchar', length: 180 })
 	password!: string;
 
-	@Column({ name: 'session_token', type: 'varchar', length: 180 })
+	@Column({ name: 'session_token', type: 'varchar', length: 324 })
 	sessionToken!: string;
 
 	@Column({ type: 'varchar', length: 60 })

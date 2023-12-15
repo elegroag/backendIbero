@@ -1,0 +1,152 @@
+{
+    "info": {
+        "_postman_id": "17d1d139-e6e1-4bab-9384-ff9786d0fb26",
+        "name": "BackenFlutter",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "1836830"
+    },
+    "item": [
+        {
+            "name": "Login registro de usuarios",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n  \"identification\": 1110491955,\r\n  \"first_name\": \"alan andres\",\r\n  \"last_name\": \"felipe agudelo\",\r\n  \"email\": \"alan@ibero.edu.co\",\r\n  \"phone\": \"31571223\",\r\n  \"create_as\": \"2023-12-13 12:01.01\",\r\n  \"update_as\": \"2023-12-13 12:01:01\",\r\n  \"password\": \"202adminer\",\r\n  \"imagen\": \"avatar02.jpg\",\r\n  \"is_available\": true\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3011/api/login/signup",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3011",
+                    "path": [
+                        "api",
+                        "login",
+                        "signup"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Listar todos los usuarios",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3011/api/users/",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3011",
+                    "path": [
+                        "api",
+                        "users",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Autenticar usuario crear token",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n  \"email\":\"elegroag@ibero.edu.co\",\r\n  \"password\":\"202adminer\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3011/api/login/token",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3011",
+                    "path": [
+                        "api",
+                        "login",
+                        "token"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Probar el token de usuario",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTExMDQ5MTk1MSwibmFtZSI6ImVsZWdyb2FnQGliZXJvLmVkdS5jbyIsImVtYWlsIjoiYWxhbiBhbmRyZXMgZmVsaXBlIGFndWRlbG8iLCJpYXQiOjE3MDI2MTYyNTUsImV4cCI6MTcwMjYyMzQ1NX0.Yb8hYblh-Kc_p-mzvf7GIBoNuRq7wGH53TCRPevrrA8",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3011/api/login/test",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3011",
+                    "path": [
+                        "api",
+                        "login",
+                        "test"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Listar todos los clientes",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTExMDQ5MTk1MSwibmFtZSI6ImVsZWdyb2FnQGliZXJvLmVkdS5jbyIsImVtYWlsIjoiYWxhbiBhbmRyZXMgZmVsaXBlIGFndWRlbG8iLCJpYXQiOjE3MDI2MTczODYsImV4cCI6MTcwMjYyNDU4Nn0.VgIPLiIRoROnPQskSQMW5dObMcbg8-OEvHK8eGrLzWM",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3011/api/clientes",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3011",
+                    "path": [
+                        "api",
+                        "clientes"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
