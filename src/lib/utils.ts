@@ -67,3 +67,7 @@ export const isBoolean = (str: any): boolean => {
 export const isDate = (date: any): boolean => {
 	return Boolean(Date.parse(date));
 };
+
+export const isEmpty = (str: any): boolean => {
+	return !str || str.length === 0;
+};

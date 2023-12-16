@@ -1,8 +1,15 @@
-import { Request, Response } from 'express';
-import { UserServices } from '../services/user_services';
-import { AuthServices } from '../services/auth_service';
+import { NextFunction, Request, Response } from 'express';
+import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
+import { HttpException } from '../exceptions/http_exception';
 
 const LoginController = {
+	/**
+	 * getTest function
+	 * @param req
+	 * @param res
+	 * @returns Response
+	 */
 	async getTest(req: Request, res: Response): Promise<Response> {
 		return res.status(201).json({
 			success: true,
@@ -10,23 +17,33 @@ const LoginController = {
 		});
 	},
 
-	async getToken(req: Request, res: Response): Promise<Response> {
-		console.log('APP access', 'Solicitud de token');
+	/**
+	 * postToken function
+	 * APP access solicitud de token
+	 * @param req
+	 * @param res
+	 * @param next
+	 * @returns Response
+	 */
+	async postToken(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 		try {
-			const authServices = new AuthServices();
-			const auth = await authServices.processAuth(req.body, new UserServices());
+			const authServices = new AuthService();
+			const auth = await authServices.processAuth(req.body, new UserService());
 			return res.status(201).json({
 				success: true,
 				token: auth?.session_token,
 			});
-		} catch (error) {
-			return res.status(404).json({
-				success: false,
-				msj: error,
-			});
+		} catch (error: unknown) {
+			next(new HttpException(501, error));
 		}
 	},
 
+	/**
+	 * postAutenticate function
+	 * @param _req
+	 * @param res
+	 * @returns Response
+	 */
 	async postAutenticate(_req: Request, res: Response): Promise<Response> {
 		console.log('APP access', 'Autenticate');
 		return res.json({
@@ -35,17 +52,27 @@ const LoginController = {
 		});
 	},
 
-	async postSignup(req: Request, res: Response): Promise<Response> {
+	/**
+	 * postSignup function
+	 * @param req
+	 * @param res
+	 * @param next
+	 * @returns Response
+	 */
+	async postSignup(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 		console.log('Class Login', 'postSignup');
+		try {
+			const userServices = new UserService();
+			const user = await userServices.create(req.body);
 
-		const userServices = new UserServices();
-		const user = await userServices.create(req.body);
-
-		return res.status(201).json({
-			success: true,
-			msj: 'Registro de usuario realizado con éxito',
-			entity: user,
-		});
+			return res.status(201).json({
+				success: true,
+				msj: 'Registro de usuario realizado con éxito',
+				entity: user,
+			});
+		} catch (error: unknown) {
+			next(new HttpException(501, error));
+		}
 	},
 };
 

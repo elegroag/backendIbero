@@ -9,12 +9,12 @@ export interface ClientesEntry {
 	cedclie: number;
 	tipdoc: Coddoc;
 	first_name: string;
-	codstat: CodStatus;
 	last_name: string;
+	codstat: CodStatus;
 	email: string;
 	phone: string;
-	create_at: string;
-	update_at: string;
+	create_as: Date;
+	update_as: Date;
 }
 
 export interface UserEntry {
@@ -34,12 +34,15 @@ export interface UserEntry {
 
 export type NoEmailClientesEntry = Omit<ClientesEntry, 'email'>;
 
-export type EmailPhoneClientesEntry = Pick<ClientesEntry, 'email' | 'phone'>;
+export type EmailPhoneClientesEntry = Pick<
+	ClientesEntry,
+	'email' | 'phone' | 'cedclie' | 'id' | 'first_name' | 'last_name'
+>;
 
 export type NewClienteEntry = Omit<ClientesEntry, 'id'>;
 
 export type NewUserEntry = Omit<UserEntry, 'id'>;
 
-export type AuthUserEntry = Pick<UserEntry, 'identification' | 'password'>;
+export type AuthUserEntry = Pick<UserEntry, 'email' | 'password'>;
 
 export type AuthUser = Omit<UserEntry, 'password'>;

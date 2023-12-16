@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import env from './config';
 
@@ -13,6 +14,12 @@ export const AppDataSource = new DataSource({
 	migrationsTableName: 'migrations',
 	synchronize: false,
 	migrationsRun: false,
-	logging: true,
+	logging: false,
+	logger: 'simple-console',
 	dropSchema: false,
+	logNotifications: false,
+	cache: false,
+	poolErrorHandler: (error: Error) => {
+		console.log('ErrorAqui', error);
+	},
 });
