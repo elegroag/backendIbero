@@ -6,31 +6,58 @@ import { NewUserEntry, AuthUserEntry } from '../types';
 import crypto, { Hash } from 'crypto';
 import { HttpException } from '../exceptions/http_exception';
 
-export class UserServices {
+/**
+ * UserService class
+ */
+export class UserService {
 	private userRepository: Repository<User>;
 
 	constructor() {
 		this.userRepository = AppDataSource.getRepository(User);
 	}
 
+	/**
+	 * findAll function
+	 * @returns Promise<User[] | null>
+	 */
 	public async findAll(): Promise<User[] | null> {
 		return await this.userRepository.find();
 	}
 
+	/**
+	 * findById function
+	 * @param id
+	 * @returns Promise<User | null>
+	 */
 	public async findById(id: number): Promise<User | null> {
 		console.log(id);
 		return await this.userRepository.findOneBy({ id: id });
 	}
 
+	/**
+	 * findByIdentification function
+	 * @param identification
+	 * @returns Promise<User | null>
+	 */
 	public async findByIdentification(identification: number): Promise<User | null> {
-		console.log(identification);
+		// console.log(identification);
 		return await this.userRepository.findOneBy({ identification: identification });
 	}
 
+	/**
+	 * findByAuth function
+	 * @param object
+	 * @returns Promise<User | null>
+	 */
 	public async findByAuth(object: AuthUserEntry): Promise<User | null> {
 		return await this.userRepository.findOneBy(object);
 	}
 
+	/**
+	 * deleteByIdentification function
+	 * @param body
+	 * @returns Promise<boolean>
+	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public async deleteByIdentification(body: object | any): Promise<boolean> {
 		if (utils.isNumber(body.identification) === false) {
@@ -43,6 +70,11 @@ export class UserServices {
 		}
 	}
 
+	/**
+	 * create function
+	 * @param body
+	 * @returns Promise<User>
+	 */
 	public async create(body: object): Promise<User> {
 		const user = new User();
 		const params = this.userEntry(body);
@@ -65,6 +97,12 @@ export class UserServices {
 		return user;
 	}
 
+	/**
+	 * update function
+	 * @param id
+	 * @param body
+	 * @returns Promise<User>
+	 */
 	public async update(id: number, body: object): Promise<User> {
 		const user = await this.userRepository.findOneBy({ id: id });
 		if (user instanceof User == false || user == null) {
@@ -85,12 +123,23 @@ export class UserServices {
 		}
 	}
 
-	public async addToken(user: User, token: string) {
+	/**
+	 * addToken function
+	 * @param user
+	 * @param token
+	 * @returns Promise<User>
+	 */
+	public async addToken(user: User, token: string): Promise<User> {
 		user.sessionToken = token;
 		await this.userRepository.save(user);
 		return user;
 	}
 
+	/**
+	 * userEntry function
+	 * @param object
+	 * @returns NewUserEntry
+	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public userEntry(object: object | any): NewUserEntry {
 		const newUser: NewUserEntry = {
@@ -109,6 +158,11 @@ export class UserServices {
 		return newUser;
 	}
 
+	/**
+	 * cryptPassword function
+	 * @param pwd
+	 * @returns Hash
+	 */
 	public cryptPassword(pwd: string): Hash {
 		return crypto.createHash('sha256').update(String(pwd));
 	}

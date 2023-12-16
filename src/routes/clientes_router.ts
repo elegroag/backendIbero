@@ -4,6 +4,7 @@ import { validaToken } from '../middlewares/authentication';
 
 export const ClientesRouter = (app: Application): void => {
 	const router = Router();
+	router.get('/load', validaToken, ClientesController.getLoad);
 	router.get('/', validaToken, ClientesController.getAll);
 	router.get('/:id', validaToken, ClientesController.getById);
 	router.post('/', validaToken, ClientesController.postCreate);

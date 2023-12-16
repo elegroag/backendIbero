@@ -52,28 +52,38 @@ networks:
 ### Comandos Docker
 
 ```bash
-   docker-compose up
+#correr el docker imagen, y comprobar el proceso de creación en primer plano
+$~ docker-compose up
 
-   docker-compose up -d postgres
+#correr el docker imagen, proceso de creación en segundo plano
+$~ docker-compose up -d serverPostgres
 
-   docker-compose logs
+#ver el log de la imagen en ejecución
+$~ docker-compose logs
 
-   docker ps
+#ver imagenes en ejecución
+$~ docker ps
 
-   docker exec -it serverPostgres  bash
+#ingresar al bash de la imagen corriendo
+$~ docker exec -it serverPostgres  bash
 
-   docker network ls
+#inspeccionar la red del docker
+$~ docker network ls
 
-   docker network prune
+#limpiar las nets no usadas
+$~ docker network prune
 
-   docker inspect serverPgadmin | grep IPAddress
+#ver que ip usa determinada imagen
+$~ docker inspect serverPgadmin | grep IPAddress
 
-   docker inspect serverPostgres | grep IPAddress
+$~ docker inspect serverPostgres | grep IPAddress
 ```
 
 ### Out bash inspect
 
 ```bash
+$~ docker inspect serverPostgres | grep IPAddress
+
    "SecondaryIPAddresses": null,
    "IPAddress": "",
             "IPAddress": "172.23.0.2",
@@ -83,13 +93,13 @@ networks:
 ### Remove imagen docker, network volumens
 
 ```bash
-docker-compose down --rmi all --volumes
+$~ docker-compose down --rmi all --volumes
 ```
 
 ### Access Database Postgresql
 
 ```bash
-docker exec -it serverPostgres  bash
+$~ docker exec -it serverPostgres  bash
 
 psql -h localhost -d adminer -U adminer
 \l
@@ -103,17 +113,26 @@ Realizar la migración de la base de datos
 Generar el archivo de migración
 
 ```bash
-   docker-compose up -d --build
-
-   npm run migrations:generate
+$~ docker-compose up -d --build
 ```
 
-procesar el archivo de migración
+Procesar el archivo de migración
 
 ```bash
-npm run migrations:run
-npm run migrations:log
-npm run migrations:show
+$~ npm run migrations:generate
+$~ npm run migrations:run
+$~ npm run migrations:log
+$~ npm run migrations:show
+```
+
+## Run Api CLIBash
+
+```bash
+$~ npm run dev
+
+   [INFO] 11:56:31 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 4.9.5)
+   Data Source has been initialized!
+   Server incializa en puerto 3011 Hora: 12/16/2023
 ```
 
 ### Test Enpoint POSTMAN
@@ -123,7 +142,7 @@ Se requiere de importar en POSTMAN el archivo de "import.postman.json", para con
 ### Usando Curl
 
 ```bash
-   curl -X POST -d '{"email":"elegroag@ibero.edu.co","password":"202adminer"}' \
-   -H 'Content-Type: application/json' \
-   http://localhost:3011/api/login/token
+$~ curl -X POST -d '{"email":"user@ibero.edu.co","password":"202adminer"}' \
+-H 'Content-Type: application/json' \
+http://localhost:3011/api/login/token
 ```
