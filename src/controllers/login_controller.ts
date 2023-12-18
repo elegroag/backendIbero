@@ -27,6 +27,7 @@ const LoginController = {
 	 */
 	async postToken(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 		try {
+			// console.log(req.body);
 			const authServices = new AuthService();
 			const auth = await authServices.processAuth(req.body, new UserService());
 			return res.status(201).json({
