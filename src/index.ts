@@ -22,14 +22,14 @@ AppDataSource.initialize()
 		const app = express();
 		app.use(express.json());
 		app.use(bodyParser.json());
-		app.options('*', cors());
 		app.use(
 			cors({
 				origin: '*',
-				methods: 'GET,PUT,PATCH,POST,DELETE',
+				methods: ['GET', 'PUT', 'POST', 'DELETE'],
 				preflightContinue: false,
-				allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Authentication'],
+				allowedHeaders: ['X-POST', 'Content-Type', 'Authorization', 'X-Requested-With', 'Authentication'],
 				exposedHeaders: ['HTTP_X_REQUESTED_WITH', 'XMLHttpRequest', 'Authentication'],
+				credentials: false,
 			})
 		);
 
